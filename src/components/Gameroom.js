@@ -25,14 +25,13 @@ class Gameroom extends Component {
 		}
 	}
 
-	//Render board 
 	renderBoard = () => this.state.started ? <Board /> : null
 
 	render() {
 		console.log(this.props)
 		return (
 			<div className="gameroom">
-				<PlayerList teams={{team1:this.state.team1,team2:this.state.team2}}/>
+				<PlayerList teams={{team1:this.state.team1, team2:this.state.team2}}/>
 				{this.renderBoard()}
 			</div>
 		);
