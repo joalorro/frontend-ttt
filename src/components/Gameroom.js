@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Board from './Board'
-import UserList from './UserList'
+import PlayerList from './PlayerList'
 
 import "../stylesheets/gameroom.css"
 
@@ -32,7 +32,7 @@ class Gameroom extends Component {
 		console.log(this.props)
 		return (
 			<div className="gameroom">
-				<UserList users={[this.state.team1,this.state.team2]}/>
+				<PlayerList teams={{team1:this.state.team1,team2:this.state.team2}}/>
 				{this.renderBoard()}
 			</div>
 		);

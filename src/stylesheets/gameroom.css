@@ -2,3 +2,9 @@
 	display: grid;
 	grid-template-columns: 1fr 3fr 1fr;
 }
+
+.playerlist {
+	display: inline-block;
+	background-color: rgba(150,0,150, .4);
+	border-radius: 25px;
+}
