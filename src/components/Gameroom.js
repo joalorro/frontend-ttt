@@ -1,13 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import Board from './Board'
 import PlayerList from './PlayerList'
-
+import { ActionCable } from 'react-actioncable-provider'
 import "../stylesheets/gameroom.css"
 
 class Gameroom extends Component {
 
 	state = {
-		id: 0,
+		id: 1,
 		team1: {
 			players: [],
 			nought: true
@@ -19,17 +19,24 @@ class Gameroom extends Component {
 		started: false,
 		isActive: true,
 		currentPlayer: {
-			id: 0,
-			username: this.props.username,
+			user: this.props.user,
 			placed: false
 		}
 	}
 
+	onReceived = (message) => {
+		console.log(message)
+	}
+
+	sendMessage = () => {
+		const state = this.state
+		this.refs.GamesChannel.perform('something', { state })
+	}
 
 	renderBoard = () => this.state.started ? <Board /> : null
 
 	handleClick = e => {
-		console.log(e.target.name)
+
 		let team = e.target.name === 'noughts' ? 'team1' : 'team2'
 		this.setState(prevState => {
 			return {
@@ -58,7 +65,6 @@ class Gameroom extends Component {
 				Waiting
 			</div>
 		)
-
 	}
 
 
@@ -66,11 +72,16 @@ class Gameroom extends Component {
 		console.log(this.state)
 		return (
 			<div className="gameroom">
-
+				<ActionCable
+					ref="GamesChannel"
+					channel={{channel: 'GamesChannel', game_id: this.state.id, user_id: this.props.user.id}}
+					onReceived={this.onReceived}
+					sendMessage={this.sendMessage}
+					/>
 				<PlayerList teams={{team1:this.state.team1, team2:this.state.team2}}/>
 				{this.pickTeams()}
-
 				{this.renderBoard()}
+				<button onClick={this.sendMessage} value="Saying Something ;)"/>
 			</div>
 		);
 	}
