@@ -25,7 +25,6 @@ class Gameroom extends Component {
 		}
 	}
 
-	//Render board 
 	renderBoard = () => this.state.started ? <Board /> : null
 
 	render() {
