@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+// import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
 import Gameroom from './Gameroom'
+
 class Pregame extends Component {
 	state = {
 		username: '',
@@ -13,6 +14,8 @@ class Pregame extends Component {
 
 	handleSubmit = () => {
 		this.setState({usernameSubmitted: true})
+		
+		// this.props.history.push('/gameroom', {username: this.state.username})
 	}
 
 	renderUsernameForm = () => {
@@ -25,24 +28,23 @@ class Pregame extends Component {
 		)
 	}
 
-
+	renderGameroom = () => <Gameroom username={this.state.username} />
 
 	render() {
+		console.log(this.state)
 		return (
 			<div>
-				{this.state.usernameSubmitted ? (
-				<Redirect to={Gameroom} push /> ) 
-				: null }
-				<Router>
+				{/* <Router>
 					<Fragment>
 						<Route exact path="/gameroom" component={Gameroom}/>
 					</Fragment>
-				</Router>
-					{this.renderUsernameForm()}
+				</Router> */}
+					{!this.state.usernameSubmitted ? this.renderUsernameForm() : this.renderGameroom()}
 			</div>
 		);
 	}
 }
 
+// export default withRouter(Pregame);
 export default Pregame;
 

@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import Board from './Board'
+import UserList from './UserList'
+
+import "../stylesheets/gameroom.css"
 
 class Gameroom extends Component {
 
@@ -12,7 +16,7 @@ class Gameroom extends Component {
 			players: [],
 			nought: false
 		},
-		noughtTurn: false,
+		started: true,
 		isActive: true,
 		currentPlayer: {
 			id: 0,
@@ -21,10 +25,15 @@ class Gameroom extends Component {
 		}
 	}
 
+	//Render board 
+	renderBoard = () => this.state.started ? <Board /> : null
+
 	render() {
+		console.log(this.props)
 		return (
-			<div>
-				
+			<div className="gameroom">
+				<UserList users={[this.state.team1,this.state.team2]}/>
+				{this.renderBoard()}
 			</div>
 		);
 	}
