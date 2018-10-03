@@ -7,7 +7,7 @@ import "../stylesheets/gameroom.css"
 class Gameroom extends Component {
 
 	state = {
-		id: 1,
+		id: this.props.game_id,
 		team1: {
 			players: [],
 			nought: true
@@ -25,6 +25,7 @@ class Gameroom extends Component {
 	}
 
 	onReceived = (message) => {
+		console.log("message")
 		console.log(message)
 	}
 
@@ -74,7 +75,7 @@ class Gameroom extends Component {
 			<div className="gameroom">
 				<ActionCable
 					ref="GamesChannel"
-					channel={{channel: 'GamesChannel', game_id: this.state.id, user_id: this.props.user.id}}
+					channel={{channel: `GamesChannel`, game_id: this.state.id, user_id: this.props.user.id}}
 					onReceived={this.onReceived}
 					sendMessage={this.sendMessage}
 					/>

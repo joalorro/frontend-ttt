@@ -8,7 +8,9 @@ class Pregame extends Component {
 	state = {
 		username: '',
 		user: null,
-		usernameSubmitted: false
+		usernameSubmitted: false,
+		roomChosen: false,
+		chosenRoom: 0
 	}
 
 	handleChange = e => {
@@ -29,6 +31,12 @@ class Pregame extends Component {
 			})
 	}
 
+	handleSelectRoomClick = (e) => {
+		let gameId = parseInt(e.target.dataset.id)
+		this.setState({roomChosen: true,chosenRoom: gameId})
+		// this.renderGameroom(e.target.dataset.id)
+	}
+
 	renderUsernameForm = () => {
 		return (
 				<form onSubmit={this.handleSubmit}>
@@ -39,25 +47,27 @@ class Pregame extends Component {
 		)
 	}
 
-	renderGameroom = () => {
-		return (
-			<Fragment>
-				<Gameroom user={this.state.user} />
-			</Fragment>
-		)
+	renderGameroomSelect = () => {
+		return !this.state.roomChosen && this.state.usernameSubmitted ? (
+			<div>
+				<button data-id="1" onClick={this.handleSelectRoomClick}>Enter Gameroom #1</button>
+			</div>
+		) : null
+	}
 
+	renderGameroom = () => {
+		return this.state.roomChosen ? (
+			<Fragment>
+				<Gameroom game_id={this.state.chosenRoom} user={this.state.user} />
+			</Fragment>
+		) : null
 	}
 
 	render() {
-		console.log(this.state)
 		return (
 			<div>
-				{/* <Router>
-					<Fragment>
-						<Route exact path="/gameroom" component={Gameroom}/>
-					</Fragment>
-				</Router> */}
-					{!this.state.usernameSubmitted ? this.renderUsernameForm() : this.renderGameroom()}
+				{!this.state.usernameSubmitted ? this.renderUsernameForm() : this.renderGameroomSelect()}
+				{this.renderGameroom()}
 			</div>
 		);
 	}
